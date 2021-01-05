@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  php: 
+    build: ./docker/php
+    container_name: php_laravel
+    volumes:
+      - ./src:/var/www/html
+
+  apache:
+    build: ./docker/apache
+    container_name: apache_laravel
+    volumes: 
+      - ./src:/var/www/html
+    ports:
+      - 8080:80
+  
+  db:
+    image: postgis/postgis
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: laravel
+    container_name: db_laravel
+    tty: true
+    volumes:
+      - ./docker/db-data:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+
+    
